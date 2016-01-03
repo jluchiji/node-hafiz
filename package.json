@@ -28,6 +28,9 @@
     "prepublish": "./node_modules/.bin/gulp rebuild"
   },
   "dependencies": {
+    "app-root-path": "^1.0.0",
+    "debug": "^2.2.0",
+    "glob": "^6.0.3",
     "lodash": "^3.10.1",
     "yargs": "^3.31.0"
   },
@@ -76,7 +79,7 @@
     ]
   },
   "flowConfig": {
-    "all": true
+    "all": false
   },
   "eslintConfig": {
     "root": true,

@@ -27,3 +27,5 @@ node_modules
 lib
 app
 build
+
+*.private.*
