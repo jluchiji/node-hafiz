@@ -6,6 +6,7 @@
  */
 
 const _ = require('lodash');
+const Yargs = require('yargs');
 const Debug = require('debug')('hafiz');
 const GetPaths = require('./paths');
 const GetFiles = require('./files');
@@ -42,13 +43,15 @@ function init(options = { }) {
   if (options.separator) { separator = options.separator; }
 
   /* Find all config files */
-  const paths = GetPaths(options.append);
+  const paths = GetPaths(process.env.CONFIG_PATH, options.append);
   const files = GetFiles(paths, options.glob || '**/*.json');
+
+  Debug(paths);
 
   /* Load all config files */
   files
     .map(f => _.set({ }, f.name, require(f.path)))
-    .concat(require('yargs').argv)
+    .concat(Yargs.argv)
     .map(Substitute)
     .reduce((mem, i) => _.merge(mem, i), store);
 
