@@ -80,6 +80,7 @@ function get(path, def) {
 /*!
  * Export the init() function.
  */
+get.init = init;
 module.exports = exports = get;
 
 
