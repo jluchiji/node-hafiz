@@ -19,7 +19,7 @@ function strsub(str) {
 
   /* Otherwise, substitute */
   return str
-    .replace(/\$(\?)?[A-Z0-9_]+/g, Envar)
+    .replace(/\$(\?|\$)?[A-Z0-9_]*/g, Envar)
     .replace(/\$\$/g, '$');
 }
 

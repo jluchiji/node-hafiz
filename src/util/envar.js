@@ -16,6 +16,12 @@ function envar(match) {
   let optional = false;
   let varname = match.substring(1);
 
+  /* Do not substitute if varname is empty */
+  if (!varname) { return '$'; }
+
+  /* Do not substitute if match is escaped */
+  if (varname.startsWith('$')) { return varname; }
+
   /* Check if envar is optional */
   if (varname.startsWith('?')) {
     optional = true;

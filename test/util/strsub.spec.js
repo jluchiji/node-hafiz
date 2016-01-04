@@ -27,4 +27,18 @@ describe('strsub(str)', function() {
       .to.equal('herp-derp');
   });
 
+  it('should not replace escaped occurences', function() {
+    const actual = strsub('herp-$$DERP');
+
+    expect(actual)
+      .to.equal('herp-$DERP');
+  });
+
+  it('should not replace empty envar names', function() {
+    const actual = strsub('herp-$derp');
+
+    expect(actual)
+      .to.equal('herp-$derp');
+  });
+
 });

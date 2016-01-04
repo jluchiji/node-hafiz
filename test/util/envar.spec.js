@@ -64,4 +64,18 @@ describe('envar(match)', function() {
       .to.be.false;
   });
 
+  it('should perform no substitution if match is escaped $', function() {
+    const actual = envar('$$NODE_ENV');
+
+    expect(actual)
+      .to.equal('$NODE_ENV');
+  });
+
+  it('should perform no substitution if envar name is empty', function() {
+    const actual = envar('$');
+
+    expect(actual)
+      .to.equal('$');
+  });
+
 });
