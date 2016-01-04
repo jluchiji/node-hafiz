@@ -6,6 +6,7 @@
  */
 
 const _ = require('lodash');
+const Root = require('app-root-path');
 const Yargs = require('yargs');
 const Debug = require('debug')('hafiz');
 const GetPaths = require('./paths');
@@ -43,7 +44,7 @@ function init(options = { }) {
   if (options.separator) { separator = options.separator; }
 
   /* Find all config files */
-  const paths = GetPaths(process.env.CONFIG_PATH, options.append);
+  const paths = GetPaths(Root.toString(), process.env.CONFIG_PATH, options.append);
   const files = GetFiles(paths, options.glob || '**/*.json');
 
   Debug(paths);

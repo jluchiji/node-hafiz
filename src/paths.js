@@ -6,21 +6,20 @@
  */
 
 const Path = require('path');
-const Root = require('app-root-path');
 const Debug = require('debug')('hafiz:paths');
 
 /*!
  * Checks CONFIG_PATH and finalizes all config paths.
  */
-function paths(base, more) {
+function paths(root, base, more) {
   Debug(base);
   Debug(more);
 
   /* Map paths to their absolute equivalents */
   const path = (base || '')
     .split(Path.delimiter)
-    .concat(more)
-    .map(i => i ? Path.resolve(Root.toString(), i) : null)
+    .concat(more || [ ])
+    .map(i => i ? Path.resolve(root, i) : null)
     .filter(i => i);
 
   Debug(path);
