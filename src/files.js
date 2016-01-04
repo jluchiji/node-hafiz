@@ -20,7 +20,7 @@ function search(path, glob) {
   try {
     stat = FS.statSync(path);
   } catch (err) {
-    console.warn(`Hafiz: could not stat ${path}`);
+    Debug(`Hafiz: could not stat ${path}`);
   }
 
   /* If this is a file, we will load it directly */
@@ -30,6 +30,7 @@ function search(path, glob) {
 
   /* Otherwise, glob the directory */
   const pattern = Path.join(path, glob);
+  Debug(pattern);
   return { root: path, files: Glob.sync(pattern) };
 }
 
