@@ -21,6 +21,7 @@ global.Sinon       = require('sinon');
  */
 
 require('./paths.spec.js');
+require('./files.spec.js');
 
 describe('Util', function() {
   require('./util/envar.spec.js');
