@@ -19,3 +19,10 @@ global.Sinon       = require('sinon');
 /*!
  * Start tests.
  */
+
+require('./paths.spec.js');
+
+describe('Util', function() {
+  require('./util/envar.spec.js');
+  require('./util/strsub.spec.js');
+});
