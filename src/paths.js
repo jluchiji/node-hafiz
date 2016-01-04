@@ -12,13 +12,16 @@ const Debug = require('debug')('hafiz:paths');
 /*!
  * Checks CONFIG_PATH and finalizes all config paths.
  */
-function paths(root) {
+function paths(base, more) {
+  Debug(base);
+  Debug(more);
 
   /* Map paths to their absolute equivalents */
-  const path = (process.env.CONFIG_PATH || '')
+  const path = (base || '')
     .split(Path.delimiter)
-    .concat(root)
-    .map(i => Path.resolve(Root.toString(), i));
+    .concat(more)
+    .map(i => i ? Path.resolve(Root.toString(), i) : null)
+    .filter(i => i);
 
   Debug(path);
   return path;
