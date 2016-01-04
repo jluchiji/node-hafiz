@@ -16,7 +16,7 @@ function paths(root) {
 
   /* Map paths to their absolute equivalents */
   const path = (process.env.CONFIG_PATH || '')
-    .split(':')
+    .split(Path.delimiter)
     .concat(root)
     .map(i => Path.resolve(Root.toString(), i));
 
