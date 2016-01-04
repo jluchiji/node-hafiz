@@ -6,14 +6,21 @@
  */
 
 const _ = require('lodash');
-const Debug = require('debug')('hafiz:core');
-const GetPaths = require('./util/get-paths');
-const GetFiles = require('./util/get-files');
+const Debug = require('debug')('hafiz');
+const GetPaths = require('./paths');
+const GetFiles = require('./files');
+const Substitute = require('./substitute');
 
 /*!
- * Symbol to hide config data
+ * Actual object that stores the config data.
  */
-const $$data = Symbol();
+let store = null;
+
+
+/*!
+ * Property path separators.
+ */
+let separator = /[\.\:\/\\]/;
 
 
 /*!
@@ -21,24 +28,62 @@ const $$data = Symbol();
  */
 function init(options = { }) {
 
+  /* Default options */
+  _.defaults(options, {
+    append: [
+      './config',
+      `./config/$${process.env.NODE_ENV}`
+    ],
+    glob: '**/*.json'
+  });
+
   /* Create the config data store object */
-  init[$$data] = Object.create(null);
+  store = Object.create(null);
+  if (options.separator) { separator = options.separator; }
 
   /* Find all config files */
   const paths = GetPaths(options.append);
-  const files = GetFiles(paths, '**/*.json');
+  const files = GetFiles(paths, options.glob || '**/*.json');
 
   /* Load all config files */
   files
     .map(f => _.set({ }, f.name, require(f.path)))
     .concat(require('yargs').argv)
-    .reduce((mem, i) => _.merge(mem, i), init[$$data]);
+    .map(Substitute)
+    .reduce((mem, i) => _.merge(mem, i), store);
 
-  Debug(JSON.stringify(init[$$data], null, 2));
+  Debug(JSON.stringify(store, null, 2));
+}
+
+
+/*!
+ * Getter function, returns the specified config option.
+ * Throws an error if config option does not exist, and default is not specified.
+ */
+function get(path, def) {
+
+  /* If path is not specified, return entire store */
+  if (!path) { return store; }
+
+  /* Otherwise, find the property with the specified path */
+  const value = _.get(store, path.split(separator));
+  if (typeof value === 'undefined') {
+    if (typeof def === 'undefined') {
+      throw new Error(`Config option ${path} does not exist.`);
+    }
+    return def;
+  }
+  return value;
 }
 
 
 /*!
  * Export the init() function.
  */
-module.exports = init;
+module.exports = exports = get;
+
+
+/*!
+ * Initialize the config if init[$$data] is not there
+ */
+if (!store) { init(); }

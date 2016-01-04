@@ -1,5 +1,5 @@
 /**
- * util/propname.js
+ * propname.js
  *
  * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license MIT
