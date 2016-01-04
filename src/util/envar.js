@@ -22,7 +22,7 @@ function envar(match) {
     varname = varname.substring(1);
   }
 
-  const value = process.env[match.substring(1)];
+  const value = process.env[varname];
 
   /* If value is undefined and not optional, throw an error */
   if (!value) {
@@ -36,8 +36,8 @@ function envar(match) {
   if (!Number.isNaN(Number(value))) { return Number(value); }
 
   /* If value is boolean-like, try to convert it */
-  if (/^true$/i.test(value)) { return true; }
-  if (/^false$/i.test(value)) { return false; }
+  if (/^true|yes$/i.test(value)) { return true; }
+  if (/^false|no$/i.test(value)) { return false; }
 
   /* Otherwise, return as is */
   return value;
