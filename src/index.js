@@ -45,9 +45,7 @@ function init(options = { }) {
 
   /* Find all config files */
   const paths = GetPaths(Root.toString(), process.env.CONFIG_PATH, options.append);
-  const files = GetFiles(paths, options.glob || '**/*.json');
-
-  Debug(paths);
+  const files = GetFiles(paths, options.glob);
 
   /* Load all config files */
   files
@@ -73,7 +71,7 @@ function get(path, def) {
   const value = _.get(store, path.split(separator));
   if (typeof value === 'undefined') {
     if (typeof def === 'undefined') {
-      throw new Error(`Config option ${path} does not exist.`);
+      throw new Error(`Config option '${path}' does not exist.`);
     }
     return def;
   }
@@ -89,6 +87,7 @@ module.exports = exports = get;
 
 
 /*!
- * Initialize the config if init[$$data] is not there
+ * Initialize on require()
+ * Can only be initialized once due to Node.js require() caching
  */
-if (!store) { init(); }
+init();
