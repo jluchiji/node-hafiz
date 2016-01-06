@@ -26,6 +26,27 @@ let separator = /[\.\:\/\\]/;
 
 
 /*!
+ * Getter function, returns the specified config option.
+ * Throws an error if config option does not exist, and default is not specified.
+ */
+function get(path, def) {
+
+  /* If path is not specified, return entire store */
+  if (!path) { return store; }
+
+  /* Otherwise, find the property with the specified path */
+  const value = _.get(store, path.split(separator));
+  if (typeof value === 'undefined') {
+    if (typeof def === 'undefined') {
+      throw new Error(`Config option '${path}' does not exist.`);
+    }
+    return def;
+  }
+  return value;
+}
+
+
+/*!
  * Initializer function
  */
 function init(options = { }) {
@@ -55,27 +76,7 @@ function init(options = { }) {
     .reduce((mem, i) => _.merge(mem, i), store);
 
   Debug(JSON.stringify(store, null, 2));
-}
-
-
-/*!
- * Getter function, returns the specified config option.
- * Throws an error if config option does not exist, and default is not specified.
- */
-function get(path, def) {
-
-  /* If path is not specified, return entire store */
-  if (!path) { return store; }
-
-  /* Otherwise, find the property with the specified path */
-  const value = _.get(store, path.split(separator));
-  if (typeof value === 'undefined') {
-    if (typeof def === 'undefined') {
-      throw new Error(`Config option '${path}' does not exist.`);
-    }
-    return def;
-  }
-  return value;
+  return module.exports;
 }
 
 
