@@ -1,5 +1,9 @@
 # Hafiz
 
+[![Code Climate][2]][3]
+[![Test Coverage][4]][5]
+[![Circle CI][6]][7]
+
 Hafiz is a configuration aggregator that allows much easier management of config
 data for large scale Node.js applications.
 
@@ -96,3 +100,9 @@ Glob pattern to use when searching for config files. Default value: `**/*.json`
 MIT
 
 [1]: https://www.npmjs.com/package/app-root-path
+[2]: https://codeclimate.com/github/jluchiji/node-hafiz/badges/gpa.svg
+[3]: https://codeclimate.com/github/jluchiji/node-hafiz
+[4]: https://codeclimate.com/github/jluchiji/node-hafiz/badges/coverage.svg
+[5]: https://codeclimate.com/github/jluchiji/node-hafiz/coverage
+[6]: https://circleci.com/gh/jluchiji/node-hafiz.svg?style=shield
+[7]: https://circleci.com/gh/jluchiji/node-hafiz
