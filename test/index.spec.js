@@ -81,3 +81,27 @@ describe('get(path, def)', function() {
   });
 
 });
+
+describe('env(name)', function() {
+
+  beforeEach(function() { process.env.NODE_ENV = 'test'; });
+
+  it('should support string name', function() {
+    expect(hafiz.env('test'))
+      .to.be.true;
+    expect(hafiz.env('tes'))
+      .to.be.true;
+    expect(hafiz.env('test1'))
+      .to.be.false;
+  });
+
+  it('should support RegExp name', function() {
+    expect(hafiz.env(/test/))
+      .to.be.true;
+    expect(hafiz.env(/TEST/i))
+      .to.be.true;
+    expect(hafiz.env(/dev/))
+      .to.be.false;
+  });
+
+});

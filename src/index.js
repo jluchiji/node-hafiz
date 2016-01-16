@@ -81,8 +81,20 @@ function init(options = { }) {
 
 
 /*!
+ * Environment check
+ */
+function env(name) {
+  if (!(name instanceof RegExp)) {
+    name = new RegExp(name);
+  }
+  return name.test(process.env.NODE_ENV);
+}
+
+
+/*!
  * Export the init() function.
  */
+get.env  = env;
 get.init = init;
 module.exports = exports = get;
 
