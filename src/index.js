@@ -47,12 +47,29 @@ function get(path, def) {
 
 
 /*!
+ * Setter function, sets the specified config option.
+ */
+function set(path, value) {
+
+  /* If path is not specified, replace entire store */
+  if (!path) {
+    store = Substitute(value);
+  } else {
+    _.set(store, path.split(separator), Substitute(value));
+  }
+
+  return this;
+}
+
+
+/*!
  * Initializer function
  */
 function init(options = { }) {
 
   /* Default options */
   _.defaults(options, {
+    separator: /[\.\:\/\\]/,
     append: [
       './config',
       `./config/$${process.env.NODE_ENV}`
@@ -62,7 +79,7 @@ function init(options = { }) {
 
   /* Create the config data store object */
   store = Object.create(null);
-  if (options.separator) { separator = options.separator; }
+  separator = options.separator;
 
   /* Find all config files */
   const paths = GetPaths(Root.toString(), process.env.CONFIG_PATH, options.append);
@@ -95,6 +112,7 @@ function env(name) {
  * Export the init() function.
  */
 get.env  = env;
+get.set  = set;
 get.init = init;
 module.exports = exports = get;
 

@@ -82,6 +82,31 @@ describe('get(path, def)', function() {
 
 });
 
+describe('set(path, value)', function() {
+
+  it('should set the property value', function() {
+    hafiz.init();
+    hafiz.set('foo', { herp: 'Derp!!' });
+
+    const actual = hafiz('foo.herp');
+
+    expect(actual)
+      .to.equal('Derp!!');
+  });
+
+  it('should substitute entire store if path is not set', function() {
+    hafiz.init();
+    hafiz.set('foo', 'bar');
+    hafiz.set(null, { foo: 'baz' });
+
+    const actual = hafiz('foo');
+
+    expect(actual)
+      .to.equal('baz');
+  });
+
+});
+
 describe('env(name)', function() {
 
   beforeEach(function() { process.env.NODE_ENV = 'test'; });
