@@ -4,7 +4,7 @@
  * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license MIT
  */
-const Path = require('path');
+const Path         = require('path');
 
 
 module.exports = function propname(path, root) {

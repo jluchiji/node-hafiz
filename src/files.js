@@ -5,10 +5,10 @@
  * @license MIT
  */
 
-const FS = require('fs');
-const Glob = require('glob');
-const Path = require('path');
-const Debug = require('debug')('hafiz:files');
+const FS           = require('fs');
+const Glob         = require('glob');
+const Path         = require('path');
+const Debug        = require('debug')('hafiz:files');
 
 const PropName = require('./propname');
 

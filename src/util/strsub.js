@@ -4,7 +4,7 @@
  * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license MIT
  */
-const Envar = require('./envar');
+const Envar        = require('./envar');
 
 
 /*!

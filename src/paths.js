@@ -5,8 +5,8 @@
  * @license MIT
  */
 
-const Path = require('path');
-const Debug = require('debug')('hafiz:paths');
+const Path         = require('path');
+const Debug        = require('debug')('hafiz:paths');
 
 /*!
  * Checks CONFIG_PATH and finalizes all config paths.

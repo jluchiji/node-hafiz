@@ -4,8 +4,8 @@
  * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license MIT
  */
-const _ = require('lodash');
-const StrSub = require('./util/strsub');
+const _            = require('lodash');
+const StrSub       = require('./util/strsub');
 
 /*!
  * Recursively checks the object and substitutes all envars in string values.

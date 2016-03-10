@@ -5,13 +5,13 @@
  * @license MIT
  */
 
-const _ = require('lodash');
-const Root = require('app-root-path');
-const Yargs = require('yargs');
-const Debug = require('debug')('hafiz');
-const GetPaths = require('./paths');
-const GetFiles = require('./files');
-const Substitute = require('./substitute');
+const _            = require('lodash');
+const Root         = require('app-root-path');
+const Yargs        = require('yargs');
+const Debug        = require('debug')('hafiz');
+const GetPaths     = require('./paths');
+const GetFiles     = require('./files');
+const Substitute   = require('./substitute');
 
 /*!
  * Actual object that stores the config data.
