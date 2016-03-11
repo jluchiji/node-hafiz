@@ -23,9 +23,9 @@ Then, put `.json` config files into `./config` directory in the project root.
 
 Finally, in any of your application source files:
 ```js
-const config = require('hafiz');
+const hafiz = require('hafiz');
 
-console.log(config('config.key'));
+console.log(hafiz('config.key'));
 ```
 
 ## Documentation
@@ -57,12 +57,44 @@ and option with path `db.collection.name` can be overwritten in the following wa
 $ ./my-app.js --db.collection.name="some-value"
 ```
 ```js
-const config = require('hafiz');
+const hafiz = require('hafiz');
 
-console.log(config('db.collection.name')); // some-value
+console.log(hafiz('db.collection.name')); // 'some-value'
 ```
 
-### config(path, def)
+### Environment Variables
+
+#### Substitution
+All strings in Hafiz are automatically checked for envar substitutions. For example:
+
+```js
+const hafiz = require('hafiz');
+hafiz.set('env', '$NODE_ENV');
+
+console.log(hafiz('env')); // 'development' (or something else)
+```
+
+#### Optional Envars
+If Hafiz encounters a envar substitution, and the requested envar does not exist,
+an error is thrown. You can mark an envar optional in the following way:
+
+```js
+const hafiz = require('hafiz');
+hafiz.set('testing', '$?NO_SUCH_VAR');
+
+console.log(hafiz('test')); // ''
+```
+
+#### Escaping
+When you need to include the `$` symbol in a string, you can escape it by including an
+additional `$`. For example, `$$NOT_AN_ENVAR` evaluates to `$NOT_AN_ENVAR`.
+
+
+#### Default Values
+Currently, support for default values is in the works.
+
+
+### hafiz(path, def)
 Gets the config option with the specified `path`. If the value is not found,
 it will return `def` if one is provided; otherwise, it will throw an error.
 
@@ -72,7 +104,13 @@ in the config root of `/user/test/my-proj/config` would have a path of
 `a.b.data`. Properties inside `data.json` are also accessible by further adding
 to the path.
 
-### config.init(options)
+### hafiz.set(path, value)
+Sets the specified config option to the value, overwriting any existing values.
+
+It is worth noting that it works in a way similar to `_.set()` rather than `_.merge()`.
+It is therefore important that you use deep paths when neccessary.
+
+### hafiz.init(options)
 Clears current config data and reinitializes the hafiz module. You would only need
 to manually initialize in the following circumstances:
 
