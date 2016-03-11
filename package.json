@@ -30,9 +30,9 @@
   "dependencies": {
     "app-root-path": "^1.0.0",
     "debug": "^2.2.0",
-    "glob": "^6.0.3",
-    "lodash": "^3.10.1",
-    "yargs": "^3.31.0"
+    "glob": "^7.0.3",
+    "lodash": "^4.6.1",
+    "yargs": "^4.2.0"
   },
   "devDependencies": {
     "app-root-path": "^1.0.0",
