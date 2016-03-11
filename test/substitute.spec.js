@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-const subst = require('../lib/substitute.js');
+const subst        = dofile('substitute');
 
 
 describe('substitute(obj)', function() {

@@ -1,4 +1,9 @@
 {
+  "rules": {
+    "camelcase": 0,
+    "no-unused-expressions": 0,
+    "prefer-arrow-callback": 0
+  },
   "env": {
     "mocha": true,
     "node": true
@@ -6,8 +11,6 @@
   "globals": {
     "expect": true,
     "dofile": true,
-    "Ignis": true,
-    "Sinon": true,
-    "co": true
+    "Sinon": true
   }
 }

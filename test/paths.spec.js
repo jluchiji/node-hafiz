@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-const paths = require('../lib/paths.js');
+const paths        = dofile('paths');
 
 
 describe('paths(base, more)', function() {

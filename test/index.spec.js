@@ -5,22 +5,26 @@
  * @license MIT
  */
 
-const _            = require('lodash');
 const Chai         = require('chai');
 Chai.use(require('sinon-chai'));
+Chai.use(require('chai-properties'));
 Chai.use(require('chai-as-promised'));
+
+const _            = require('lodash');
+const Path         = require('path');
+const Root         = require('app-root-path');
+Root.setPath(Path.resolve(__dirname, '../src'));
 
 /*!
  * Setup global stuff here.
  */
-global.co          = require('bluebird').coroutine;
+global.dofile      = Root.require;
 global.expect      = Chai.expect;
 global.Sinon       = require('sinon');
 
 /*!
  * Start tests.
  */
-
 require('./paths.spec.js');
 require('./files.spec.js');
 require('./substitute.spec.js');
@@ -30,17 +34,16 @@ describe('Util', function() {
   require('./util/strsub.spec.js');
 });
 
-
 /*!
  * Putting everything together.
  */
 process.env.CONFIG_PATH = '';
-const hafiz = require('../lib/index.js');
+const hafiz = dofile('index');
 
 describe('init(options)', function() {
 
   it('should use append/glob options', function() {
-    hafiz.init({ append: [ './test/fixtures' ], glob: '*.json' });
+    hafiz.init({ append: [ '../test/fixtures' ], glob: '*.json' });
     const actual = hafiz();
 
     expect(_.omit(actual, '_', '$0'))
@@ -58,7 +61,7 @@ describe('get(path, def)', function() {
 
   it('should use custom property separators', function() {
 
-    hafiz.init({ separator: /[\|]/, append: [ './test/fixtures' ] });
+    hafiz.init({ separator: /[\|]/, append: [ '../test/fixtures' ] });
     const actual = hafiz('a|c|d|e|greeting');
 
     expect(actual)

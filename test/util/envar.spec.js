@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-const envar = require('../../lib/util/envar');
+const envar        = dofile('util/envar');
 
 
 describe('envar(match)', function() {

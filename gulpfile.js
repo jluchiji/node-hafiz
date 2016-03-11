@@ -4,18 +4,22 @@
  * @author  Denis Luchkin-Zhou <denis@ricepo.com>
  * @license MIT
  */
+require('babel-core/register');
 
 const gulp         = require('gulp');
+const gutil        = require('gulp-util');
 
 const del          = require('del');
-const flow         = require('gulp-flowtype');
 const babel        = require('gulp-babel');
 const mocha        = require('gulp-mocha');
 const eslint       = require('gulp-eslint');
 const notify       = require('gulp-notify');
+const isparta      = require('isparta');
 const changed      = require('gulp-changed');
 const istanbul     = require('gulp-istanbul');
+const jsinspect    = require('gulp-jsinspect');
 const sourcemaps   = require('gulp-sourcemaps');
+const codeclimate  = require('gulp-codeclimate-reporter');
 
 /*!
  * Load plugin configuration files.
@@ -23,7 +27,7 @@ const sourcemaps   = require('gulp-sourcemaps');
 const pkg          = require('./package.json');
 const eslintrc     = pkg.eslintConfig;
 const babelrc      = pkg.babel;
-const flowrc       = pkg.flowConfig;
+const jsirc        = pkg.jsInspectConfig;
 
 /*!
  * Default build target.
@@ -64,9 +68,9 @@ const lint = function() {
 
   return gulp.src(['src/**/*.js'])
     .pipe(changed('lib'))
-    .pipe(flow(flowrc))
     .pipe(eslint(eslintrc))
     .pipe(eslint.format())
+    .pipe(jsinspect(jsirc))
     .pipe(eslint.failAfterError());
 
 };
@@ -77,10 +81,11 @@ gulp.task('relint', ['clean'], lint);
 /*!
  * Run the test suit.
  */
-gulp.task('test', ['build'], function() {
+gulp.task('test', ['build'], function(done) {
 
   gulp.src([ 'test/index.spec.js' ], { read: false })
-  .pipe(mocha({ reporter: 'spec' }));
+  .pipe(mocha({ reporter: 'spec' }))
+  .once('end', done);
 
 });
 
@@ -90,8 +95,11 @@ gulp.task('test', ['build'], function() {
  */
 gulp.task('coverage', ['build'], function(done) {
 
-  gulp.src(['lib/**/*.js'])
-    .pipe(istanbul())
+  gulp.src(['src/**/*.js'])
+    .pipe(istanbul({
+      instrumenter: isparta.Instrumenter,
+      includeUntested: true
+    }))
     .pipe(istanbul.hookRequire())
     .on('finish', function() {
       gulp.src(['test/index.spec.js'])
@@ -101,8 +109,26 @@ gulp.task('coverage', ['build'], function(done) {
           reportOpts: { dir: 'coverage' },
           reporters: ['text-summary', 'html', 'lcov']
         }))
-        .on('end', done);
+        .once('end', done);
     });
+
+});
+
+
+/*!
+ * Report test coverage to CodeClimate.
+ */
+gulp.task('coverage:report', [ 'coverage' ], function() {
+
+  const token = process.env.CODECLIMATE_REPO_TOKEN;
+  if (!token) {
+    gutil.log('Skipping CodeClimate coverage reporting.');
+    return null;
+  }
+
+  return gulp
+    .src([ 'coverage/lcov.info' ], { read: false })
+    .pipe(codeclimate({ token: token }));
 
 });
 

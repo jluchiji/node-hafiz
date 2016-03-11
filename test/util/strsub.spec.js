@@ -5,7 +5,7 @@
  * @license MIT
  */
 
-const strsub = require('../../lib/util/strsub');
+const strsub       = dofile('util/strsub');
 
 
 describe('strsub(str)', function() {
