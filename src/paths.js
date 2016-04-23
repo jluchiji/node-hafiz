@@ -4,6 +4,7 @@
  * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license MIT
  */
+/* eslint no-confusing-arrow: 1 */
 
 const Path         = require('path');
 const Debug        = require('debug')('hafiz:paths');
