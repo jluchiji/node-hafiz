@@ -64,9 +64,10 @@ function set(path, value) {
 
 
 /*!
- * Initializer function
+ * Loads config files from a directory
  */
-function init(options = { }) {
+function load(root, options = { }) {
+  Debug('load', root, options);
 
   /* Default options */
   _.defaults(options, {
@@ -83,7 +84,7 @@ function init(options = { }) {
   separator = options.separator;
 
   /* Find all config files */
-  const paths = GetPaths(Root.toString(), process.env.CONFIG_PATH, options.append);
+  const paths = GetPaths(root, process.env.CONFIG_PATH, options.append);
   const files = GetFiles(paths, options.glob);
 
   /* Load all config files */
@@ -95,6 +96,17 @@ function init(options = { }) {
 
   Debug(JSON.stringify(store, null, 2));
   return module.exports;
+}
+
+
+/*!
+ * Initializer function
+ */
+function init(options = { }) {
+  Debug('init');
+
+  const root = Root.toString();
+  return load(root, options);
 }
 
 
@@ -116,6 +128,7 @@ get.env  = env;
 get.set  = set;
 get.sub  = StrSub;
 get.init = init;
+get.load = load;
 module.exports = exports = get;
 
 
@@ -123,4 +136,5 @@ module.exports = exports = get;
  * Initialize on require()
  * Can only be initialized once due to Node.js require() caching
  */
+// Debug('init on require');
 init();
