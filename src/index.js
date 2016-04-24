@@ -130,11 +130,3 @@ get.sub  = StrSub;
 get.init = init;
 get.load = load;
 module.exports = exports = get;
-
-
-/*!
- * Initialize on require()
- * Can only be initialized once due to Node.js require() caching
- */
-// Debug('init on require');
-init();
