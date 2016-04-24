@@ -6,7 +6,6 @@
  */
 
 const _            = require('lodash');
-const Root         = require('app-root-path');
 const Yargs        = require('yargs');
 const Debug        = require('debug')('hafiz');
 const StrSub       = require('./util/strsub');
@@ -100,17 +99,6 @@ function load(root, options = { }) {
 
 
 /*!
- * Initializer function
- */
-function init(options = { }) {
-  Debug('init');
-
-  const root = Root.toString();
-  return load(root, options);
-}
-
-
-/*!
  * Environment check
  */
 function env(name) {
@@ -127,6 +115,5 @@ function env(name) {
 get.env  = env;
 get.set  = set;
 get.sub  = StrSub;
-get.init = init;
 get.load = load;
 module.exports = exports = get;

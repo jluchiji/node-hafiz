@@ -28,13 +28,13 @@
     "prepublish": "./node_modules/.bin/gulp rebuild"
   },
   "dependencies": {
-    "app-root-path": "^1.0.0",
     "debug": "^2.2.0",
     "glob": "^7.0.3",
     "lodash": "^4.6.1",
     "yargs": "^4.2.0"
   },
   "devDependencies": {
+    "app-root-path": "^1.0.0",
     "babel-core": "^6.4.0",
     "babel-eslint": "^6.0.0",
     "babel-plugin-transform-flow-strip-types": "^6.3.15",

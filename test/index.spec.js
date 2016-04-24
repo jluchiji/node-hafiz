@@ -15,6 +15,8 @@ const Path         = require('path');
 const Root         = require('app-root-path');
 Root.setPath(Path.resolve(__dirname, '../src'));
 
+const root         = Path.resolve(__dirname, './fixtures');
+
 /*!
  * Setup global stuff here.
  */
@@ -40,10 +42,10 @@ describe('Util', function() {
 process.env.CONFIG_PATH = '';
 const hafiz = dofile('index');
 
-describe('init(options)', function() {
+describe('load(options)', function() {
 
   it('should use append/glob options', function() {
-    hafiz.init({ append: [ '../test/fixtures' ], glob: '*.json' });
+    hafiz.load(root, { append: [ '.' ], glob: '*.json' });
     const actual = hafiz();
 
     expect(_.omit(actual, '_', '$0'))
@@ -61,7 +63,7 @@ describe('get(path, def)', function() {
 
   it('should use custom property separators', function() {
 
-    hafiz.init({ separator: /[\|]/, append: [ '../test/fixtures' ] });
+    hafiz.load(root, { separator: /[\|]/, append: [ '.' ] });
     const actual = hafiz('a|c|d|e|greeting');
 
     expect(actual)
@@ -70,7 +72,7 @@ describe('get(path, def)', function() {
 
   it('should use default value when provided and necessary', function() {
 
-    hafiz.init();
+    hafiz.load(root);
     const actual = hafiz('no.such.config', 'default');
 
     expect(actual)
@@ -78,7 +80,7 @@ describe('get(path, def)', function() {
   });
 
   it('should throw when config is undefined and there is no default', function() {
-    hafiz.init();
+    hafiz.load(root);
     expect(() => hafiz('no.such.config'))
       .to.throw('Config option \'no.such.config\' does not exist.');
   });
@@ -88,7 +90,7 @@ describe('get(path, def)', function() {
 describe('set(path, value)', function() {
 
   it('should set the property value', function() {
-    hafiz.init();
+    hafiz.load(root);
     hafiz.set('foo', { herp: 'Derp!!' });
 
     const actual = hafiz('foo.herp');
@@ -98,7 +100,7 @@ describe('set(path, value)', function() {
   });
 
   it('should substitute entire store if path is not set', function() {
-    hafiz.init();
+    hafiz.load(root);
     hafiz.set('foo', 'bar');
     hafiz.set(null, { foo: 'baz' });
 
