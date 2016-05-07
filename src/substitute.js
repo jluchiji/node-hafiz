@@ -11,10 +11,12 @@ const StrSub       = require('./util/strsub');
  * Recursively checks the object and substitutes all envars in string values.
  */
 function envar(obj) {
-  _.forEach(obj, (v, k) => {
-    if (typeof v === 'string') { obj[k] = StrSub(v); }
-    if (typeof v === 'object') { envar(v); }
-  });
+  if (typeof obj === 'object') {
+    _.forEach(obj, (v, k) => {
+      if (typeof v === 'string') { obj[k] = StrSub(v); }
+      if (typeof v === 'object') { envar(v); }
+    });
+  }
   return obj;
 }
 
